@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: azure-test
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: azure-test
