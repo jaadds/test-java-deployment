@@ -14,3 +14,25 @@ steps:
   displayName: 'Run a one-line script'
 - checkout: self
   persistCredentials: true
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      var=$(kubectl)
+      echo $var
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'azure-cli'
+    azureResourceGroup: 'APIM-RnD-RG'
+    kubernetesCluster: 'apim-poc'
+    namespace: 'default'
+    command: 'apply'
+    useConfigurationFile: true
+    configuration: 'hello-app-dep.yaml'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Container Registry'
+    dockerRegistryEndpoint: 'private_docker_connection'
