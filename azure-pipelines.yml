@@ -22,6 +22,7 @@ steps:
       
       var=$(kubectl)
       echo $var
+
 - task: Kubernetes@1
   inputs:
     connectionType: 'Azure Resource Manager'
@@ -31,54 +32,7 @@ steps:
     namespace: 'default'
     command: 'apply'
     useConfigurationFile: true
-    configurationType: 'inline'
-    inline: |
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: azure-test
-      spec:
-        replicas: 1
-        selector:
-          matchLabels:
-            app: azure-test
-        strategy:
-          rollingUpdate:
-            maxSurge: 1
-            maxUnavailable: 1
-        minReadySeconds: 5 
-        template:
-          metadata:
-            labels:
-              app: azure-test
-          spec:
-            nodeSelector:
-              "beta.kubernetes.io/os": linux
-            containers:
-            - name: azure-test
-              image: jaadds/azure_test:7
-              ports:
-              - containerPort: 8080
-              resources:
-                requests:
-                  cpu: 250m
-                limits:
-                  cpu: 500m
-              env:
-              - name: REDIS
-                value: "azure-test"
-      ---
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: azure-test
-      spec:
-        type: LoadBalancer
-        ports:
-        - port: 80
-          targetPort: 8080  
-        selector:
-          app: azure-test
+    configuration: 'hello-app-dep.yaml'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Container Registry'
     dockerRegistryEndpoint: 'private_docker_connection'
