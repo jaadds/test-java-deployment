@@ -21,7 +21,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: azure-test
-        image: jaadds/azure_test:7
+        image: jaadds/azure_test:master-2de847a436395e2ba59c36d13ef0ac404b376eaa
         ports:
         - containerPort: 8080
         resources:
